@@ -34,7 +34,7 @@ const packages = [
     id: 'meghalaya-4d',
     name: 'Meghalaya Magic',
     duration: '3N/4D',
-    image: 'https://images.unsplash.com/photo-1600298882525-0aa306a5e4d5?crop=entropy&cs=srgb&fm=jpg&q=85&w=800',
+    image: 'https://images.unsplash.com/photo-1564577160324-112d603f750f?crop=entropy&cs=srgb&fm=jpg&q=85&w=800',
     priceRange: '₹10,000 - ₹15,000 per person',
     highlights: ['Shillong', 'Cherrapunji', 'Living Root Bridge', 'Dawki'],
     itinerary: [

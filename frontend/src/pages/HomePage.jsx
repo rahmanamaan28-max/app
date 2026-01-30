@@ -29,7 +29,7 @@ const destinations = [
   {
     name: 'Meghalaya',
     keywords: ['Waterfalls', 'Caves', 'Living Roots'],
-    image: 'https://images.unsplash.com/photo-1600298882525-0aa306a5e4d5?crop=entropy&cs=srgb&fm=jpg&q=85&w=800',
+    image: 'https://images.unsplash.com/photo-1564577160324-112d603f750f?crop=entropy&cs=srgb&fm=jpg&q=85&w=800',
   },
   {
     name: 'Tawang',
