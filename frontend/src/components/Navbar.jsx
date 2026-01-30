@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, MapPin } from 'lucide-react';
 import { Button } from './ui/button';
-
-const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSc5lFNPXDoW-5uUaeNJ_wATz970qxwa7yAWfiFOEsXMheXpHQ/viewform?usp=header';
+import siteConfig from '../config/siteConfig';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -74,7 +73,7 @@ export const Navbar = () => {
           {/* CTA + Mobile Menu */}
           <div className="flex items-center gap-3">
             <a
-              href={GOOGLE_FORM_URL}
+              href={siteConfig.googleFormUrl}
               target="_blank"
               rel="noopener noreferrer"
               data-testid="navbar-cta"

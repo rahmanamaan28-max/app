@@ -7,27 +7,35 @@ import {
   MessageCircle,
   MapPin
 } from 'lucide-react';
-
-const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSc5lFNPXDoW-5uUaeNJ_wATz970qxwa7yAWfiFOEsXMheXpHQ/viewform?usp=header';
-
-const contactMethods = [
-  {
-    icon: Send,
-    title: 'Telegram',
-    value: 'OnTheGo Travels',
-    link: 'https://t.me/OnTheGoTravels',
-    color: 'bg-sky-500',
-  },
-  {
-    icon: Instagram,
-    title: 'Instagram',
-    value: '@onthegotravels26',
-    link: 'https://instagram.com/onthegotravels26',
-    color: 'bg-gradient-to-r from-purple-500 to-pink-500',
-  },
-];
+import siteConfig from '../config/siteConfig';
 
 export const ContactPage = () => {
+  const { social, contact } = siteConfig;
+
+  const contactMethods = [
+    ...(social.telegram.enabled ? [{
+      icon: Send,
+      title: 'Telegram',
+      value: social.telegram.handle,
+      link: social.telegram.url,
+      color: 'bg-sky-500',
+    }] : []),
+    ...(social.instagram.enabled ? [{
+      icon: Instagram,
+      title: 'Instagram',
+      value: social.instagram.handle,
+      link: social.instagram.url,
+      color: 'bg-gradient-to-r from-purple-500 to-pink-500',
+    }] : []),
+    ...(social.whatsapp.enabled && social.whatsapp.url ? [{
+      icon: MessageCircle,
+      title: 'WhatsApp',
+      value: social.whatsapp.number,
+      link: social.whatsapp.url,
+      color: 'bg-green-500',
+    }] : []),
+  ];
+
   return (
     <div data-testid="contact-page" className="min-h-screen pt-24 pb-16">
       {/* Header */}
@@ -59,7 +67,7 @@ export const ContactPage = () => {
               {/* Google Form Embed */}
               <div className="relative">
                 <iframe
-                  src={`${GOOGLE_FORM_URL.replace('/viewform', '/viewform?embedded=true')}`}
+                  src={`${siteConfig.googleFormUrl.replace('/viewform', '/viewform?embedded=true')}`}
                   width="100%"
                   height="700"
                   frameBorder="0"
@@ -78,32 +86,34 @@ export const ContactPage = () => {
           {/* Right Column - Contact Info */}
           <div className="space-y-8">
             {/* Contact Methods */}
-            <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
-              <h3 className="font-semibold text-slate-900 text-lg mb-6">
-                Other Ways to Reach Us
-              </h3>
-              <div className="space-y-4">
-                {contactMethods.map((method, index) => (
-                  <a
-                    key={index}
-                    href={method.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    data-testid={`contact-method-${index}`}
-                    className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors"
-                  >
-                    <div className={`${method.color} p-3 rounded-xl text-white`}>
-                      <method.icon className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-slate-900">{method.title}</p>
-                      <p className="text-sm text-slate-600">{method.value}</p>
-                    </div>
-                    <ArrowRight className="w-5 h-5 text-slate-400 ml-auto" />
-                  </a>
-                ))}
+            {contactMethods.length > 0 && (
+              <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm">
+                <h3 className="font-semibold text-slate-900 text-lg mb-6">
+                  Other Ways to Reach Us
+                </h3>
+                <div className="space-y-4">
+                  {contactMethods.map((method, index) => (
+                    <a
+                      key={index}
+                      href={method.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-testid={`contact-method-${index}`}
+                      className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl hover:bg-slate-100 transition-colors"
+                    >
+                      <div className={`${method.color} p-3 rounded-xl text-white`}>
+                        <method.icon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-slate-900">{method.title}</p>
+                        <p className="text-sm text-slate-600">{method.value}</p>
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-slate-400 ml-auto" />
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Response Time */}
             <div className="bg-sky-50 p-6 rounded-2xl">
@@ -129,11 +139,11 @@ export const ContactPage = () => {
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-slate-600">Monday - Saturday</span>
-                  <span className="text-slate-900 font-medium">10:00 AM - 7:00 PM</span>
+                  <span className="text-slate-900 font-medium">{contact.workingHours.weekdays}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600">Sunday</span>
-                  <span className="text-slate-900 font-medium">11:00 AM - 5:00 PM</span>
+                  <span className="text-slate-900 font-medium">{contact.workingHours.sunday}</span>
                 </div>
               </div>
               <p className="text-xs text-slate-500 mt-4">

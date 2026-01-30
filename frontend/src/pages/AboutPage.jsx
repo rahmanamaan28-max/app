@@ -9,10 +9,10 @@ import {
   Target,
   Sparkles,
   Instagram,
-  Send
+  Send,
+  MessageCircle
 } from 'lucide-react';
-
-const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSc5lFNPXDoW-5uUaeNJ_wATz970qxwa7yAWfiFOEsXMheXpHQ/viewform?usp=header';
+import siteConfig from '../config/siteConfig';
 
 const values = [
   {
@@ -49,6 +49,8 @@ const specializations = [
 ];
 
 export const AboutPage = () => {
+  const { social } = siteConfig;
+
   return (
     <div data-testid="about-page" className="min-h-screen pt-24 pb-16">
       {/* Hero Section */}
@@ -175,27 +177,43 @@ export const AboutPage = () => {
               Follow our journey and travel stories
             </p>
           </div>
-          <div className="flex justify-center gap-6">
-            <a
-              href="https://instagram.com/onthegotravels26"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="about-instagram"
-              className="flex items-center gap-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
-            >
-              <Instagram className="w-5 h-5" />
-              @onthegotravels26
-            </a>
-            <a
-              href="https://t.me/OnTheGoTravels"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="about-telegram"
-              className="flex items-center gap-3 bg-sky-500 text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
-            >
-              <Send className="w-5 h-5" />
-              Telegram
-            </a>
+          <div className="flex flex-wrap justify-center gap-4">
+            {social.instagram.enabled && (
+              <a
+                href={social.instagram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="about-instagram"
+                className="flex items-center gap-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
+              >
+                <Instagram className="w-5 h-5" />
+                {social.instagram.handle}
+              </a>
+            )}
+            {social.telegram.enabled && (
+              <a
+                href={social.telegram.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="about-telegram"
+                className="flex items-center gap-3 bg-sky-500 text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
+              >
+                <Send className="w-5 h-5" />
+                Telegram
+              </a>
+            )}
+            {social.whatsapp.enabled && social.whatsapp.url && (
+              <a
+                href={social.whatsapp.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-testid="about-whatsapp"
+                className="flex items-center gap-3 bg-green-500 text-white px-6 py-3 rounded-full hover:opacity-90 transition-opacity"
+              >
+                <MessageCircle className="w-5 h-5" />
+                WhatsApp
+              </a>
+            )}
           </div>
         </div>
       </section>
@@ -210,7 +228,7 @@ export const AboutPage = () => {
             Ready to experience travel done right? We're here to help.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href={GOOGLE_FORM_URL} target="_blank" rel="noopener noreferrer">
+            <a href={siteConfig.googleFormUrl} target="_blank" rel="noopener noreferrer">
               <Button
                 data-testid="about-enquiry-btn"
                 className="bg-amber-500 hover:bg-amber-600 text-white rounded-full px-10 py-6 text-lg font-medium"

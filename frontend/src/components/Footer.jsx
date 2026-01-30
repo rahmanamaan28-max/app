@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
-import { MapPin, Instagram, Send, Mail, Phone } from 'lucide-react';
-
-const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSc5lFNPXDoW-5uUaeNJ_wATz970qxwa7yAWfiFOEsXMheXpHQ/viewform?usp=header';
+import { MapPin, Instagram, Send, MessageCircle } from 'lucide-react';
+import siteConfig from '../config/siteConfig';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const { social, quickLinks } = siteConfig;
 
   return (
     <footer data-testid="footer" className="bg-slate-900 text-white">
@@ -14,30 +14,45 @@ export const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <MapPin className="w-6 h-6 text-amber-500" />
-              <span className="font-serif font-bold text-xl">OnTheGo Travels</span>
+              <span className="font-serif font-bold text-xl">{siteConfig.businessName}</span>
             </div>
             <p className="text-slate-400 text-sm leading-relaxed">
               Honest, transparent travel planning across North-East India, Himalayas & beyond. No middlemen, no hidden costs.
             </p>
             <div className="flex items-center gap-4 pt-2">
-              <a
-                href="https://instagram.com/onthegotravels26"
-                target="_blank"
-                rel="noopener noreferrer"
-                data-testid="footer-instagram"
-                className="text-slate-400 hover:text-amber-500 transition-colors"
-              >
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a
-                href="https://t.me/OnTheGoTravels"
-                target="_blank"
-                rel="noopener noreferrer"
-                data-testid="footer-telegram"
-                className="text-slate-400 hover:text-amber-500 transition-colors"
-              >
-                <Send className="w-5 h-5" />
-              </a>
+              {social.instagram.enabled && (
+                <a
+                  href={social.instagram.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="footer-instagram"
+                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                >
+                  <Instagram className="w-5 h-5" />
+                </a>
+              )}
+              {social.telegram.enabled && (
+                <a
+                  href={social.telegram.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="footer-telegram"
+                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                >
+                  <Send className="w-5 h-5" />
+                </a>
+              )}
+              {social.whatsapp.enabled && social.whatsapp.url && (
+                <a
+                  href={social.whatsapp.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  data-testid="footer-whatsapp"
+                  className="text-slate-400 hover:text-amber-500 transition-colors"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </a>
+              )}
             </div>
           </div>
 
@@ -56,6 +71,21 @@ export const Footer = () => {
                   </Link>
                 </li>
               ))}
+              {/* Dynamic Quick Links */}
+              {Object.entries(quickLinks).map(([key, link]) => 
+                link.enabled && link.url ? (
+                  <li key={key}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-slate-400 hover:text-white transition-colors text-sm"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ) : null
+              )}
             </ul>
           </div>
 
@@ -81,33 +111,51 @@ export const Footer = () => {
           <div>
             <h4 className="font-semibold text-white mb-4">Get in Touch</h4>
             <ul className="space-y-3">
-              <li>
-                <a
-                  href="https://t.me/OnTheGoTravels"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="footer-contact-telegram"
-                  className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
-                >
-                  <Send className="w-4 h-4" />
-                  <span>Telegram: OnTheGo Travels</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://instagram.com/onthegotravels26"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  data-testid="footer-contact-instagram"
-                  className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
-                >
-                  <Instagram className="w-4 h-4" />
-                  <span>@onthegotravels26</span>
-                </a>
-              </li>
+              {social.telegram.enabled && (
+                <li>
+                  <a
+                    href={social.telegram.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid="footer-contact-telegram"
+                    className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
+                  >
+                    <Send className="w-4 h-4" />
+                    <span>Telegram: {social.telegram.handle}</span>
+                  </a>
+                </li>
+              )}
+              {social.instagram.enabled && (
+                <li>
+                  <a
+                    href={social.instagram.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid="footer-contact-instagram"
+                    className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
+                  >
+                    <Instagram className="w-4 h-4" />
+                    <span>{social.instagram.handle}</span>
+                  </a>
+                </li>
+              )}
+              {social.whatsapp.enabled && social.whatsapp.url && (
+                <li>
+                  <a
+                    href={social.whatsapp.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-testid="footer-contact-whatsapp"
+                    className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
+                  >
+                    <MessageCircle className="w-4 h-4" />
+                    <span>WhatsApp: {social.whatsapp.number}</span>
+                  </a>
+                </li>
+              )}
             </ul>
             <a
-              href={GOOGLE_FORM_URL}
+              href={siteConfig.googleFormUrl}
               target="_blank"
               rel="noopener noreferrer"
               data-testid="footer-enquiry-btn"
@@ -121,7 +169,7 @@ export const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-slate-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm">
-            © {currentYear} OnTheGo Travels. All rights reserved.
+            © {currentYear} {siteConfig.businessName}. All rights reserved.
           </p>
           <div className="flex gap-6">
             <Link to="/about" className="text-slate-500 hover:text-white text-sm transition-colors">
