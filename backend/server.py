@@ -87,5 +87,3 @@ logger = logging.getLogger(__name__)
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
-    if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
